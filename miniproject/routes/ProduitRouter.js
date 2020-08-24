@@ -13,7 +13,12 @@ produitRouter.use(bodyParser.json());
 
 produitRouter.route('/')
 .get((req, res, next) => {
-    Produits.find({})
+    const nom = req.query.nom;
+    console.log(nom);
+    const r = new RegExp('^' +nom , "i");
+    const condition = nom ? {nom : r }: null ;
+    console.log(condition);
+    Produits.find(condition)
     .then((produits)=> {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
